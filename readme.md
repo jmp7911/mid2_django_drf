@@ -67,9 +67,11 @@ gantt
 
 ### 개발환경 및 기술
 
-<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
-<img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white">
-<img src="https://img.shields.io/badge/AWS Cloud-232F3E?style=for-the-badge&logo=amazon&logoColor=white">
+<div style="display:inline-block;">
+    <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+    <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white">
+    <img src="https://img.shields.io/badge/AWS Cloud-232F3E?style=for-the-badge&logo=amazon&logoColor=white">
+</div>
 
 ---
 
@@ -78,7 +80,38 @@ gantt
 ---
 
 ### 데이터베이스 구조
-
+```mermaid
+erDiagram
+    user ||--o{ chat : has
+    user {
+      integer id PK
+      varchar email
+      varchar nickname
+      varchar password
+      datetime created_at
+      varchar ip_address
+      datetime last_login
+    }
+    chat {
+      integer id PK
+      integer user FK
+      text content
+      datetime created_at
+      datetime updated_at
+      chat chat_reply FK
+    }
+    user ||--o{ quote : has
+    quote {
+      integer id PK
+      integer user FK
+      text content
+      boolean is_apply
+      datetime created_at
+      datetime updated_at
+      datetime applied_at
+    }
+    
+```
 ---
 
 ### 화면설계

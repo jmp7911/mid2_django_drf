@@ -55,11 +55,12 @@ gantt
     요구사항 분석            :done,    des1, 2023-11-21, 0d
     데이터베이스 설계         :done,  des2, 2023-11-21, 0d
     기능명세서 작성         :active,  des2, 2023-11-21, 1d
-    개발                   : des3, after des2, 5d
-    프레젠테이션             :des4, after des3, 2d
+    서버환경 생성         :active,  des3, 2023-11-21, 1d
+    개발                   : des4, after des2, 5d
+    프레젠테이션             :des5, after des3, 2d
 
     section  개발
-    js->django 리팩토링           :    dev1, after des2, 1d
+    js->django 리팩토링           :    dev1, after des3, 1d
     
     
 ```
@@ -112,6 +113,168 @@ erDiagram
     }
     
 ```
+---
+
+### 기능명세서
+- **기본url** : 
+- **Content-Type** : application/json
+- 공통 **Header**  
+```
+{
+  Authentication : bearer TOKEN
+}
+```
+|URL|GET|POST|PUT|DELETE|Description|
+|---|---|---|---|---|---|
+|/accounts/login|O|O|---|---|로그인|
+|/accounts/logout|O|---|---|---|로그인|
+|/accounts/join|O|O|---|---|회원 가입|
+|/accounts/profile|O|---|O|O|회원 정보 수정 / 탈퇴|
+|/chat|O|O|---|O|채팅|
+|/quote|O|O|O|O|명대사 요청 게시판|
+
+
+### /chat
+- GET
+  - queryString
+
+  |Key|Value|Default|Description|
+  |---|---|---|---|
+  |offset|1|1|paging offset|
+  |per-page|10|10|paging limit|
+
+  - Response
+  ```
+  HTTP/1.1 200 OK
+  Link: 
+  <https://api.test.com/users?page=10&per-page=10>; rel="next",
+  <https://api.test.com/users?page=50&per-page=10>; rel="last",
+  <https://api.test.com/users?page=0&per-page=10>; rel="first",
+  <https://api.test.com/users?page=0&per-page=0>; rel="prev",
+  [
+      {1, ...},
+      {2, ...},
+      ...
+      {10,...},
+      "links": [
+        {
+            "rel": "next",
+            "method": "GET",
+            "link": "https://api.test.com/users?page=10&per-page=10
+        },
+        {
+            "rel": "last",
+            "method": "GET",
+            "link": "https://api.test.com/users?page=50&per-page=10
+        },
+        {
+            "rel": "first",
+            "method": "GET",
+            "link": "https://api.test.com/users?page=0&per-page=10
+        },
+        {
+            "rel": "prev",
+            "method": "GET",
+            "link": "https://api.test.com/users?page=0&per-page=0
+        },
+    ]
+  ]
+  ```
+
+- POST
+  - Response 
+  ```
+  HTTP/1.1 200 OK
+  {
+
+  }
+  ```
+
+- DELETE
+  - Response 
+  ```
+  HTTP/1.1 204 No Content
+  {
+
+  }
+  ```
+
+### /quote
+- GET
+  - queryString
+
+  |Key|Value|Default|Description|
+  |---|---|---|---|
+  |page|1|1|paging offset|
+  |per_page|10|10|paging limit|
+
+  - Response
+  ```
+  HTTP/1.1 200 OK
+  Link: 
+  <https://api.test.com/users?page=10&per-page=10>; rel="next",
+  <https://api.test.com/users?page=50&per-page=10>; rel="last",
+  <https://api.test.com/users?page=0&per-page=10>; rel="first",
+  <https://api.test.com/users?page=0&per-page=0>; rel="prev",
+  [
+      {1, ...},
+      {2, ...},
+      ...
+      {10,...},
+      "links": [
+        {
+            "rel": "next",
+            "method": "GET",
+            "link": "https://api.test.com/users?page=10&per-page=10
+        },
+        {
+            "rel": "last",
+            "method": "GET",
+            "link": "https://api.test.com/users?page=50&per-page=10
+        },
+        {
+            "rel": "first",
+            "method": "GET",
+            "link": "https://api.test.com/users?page=0&per-page=10
+        },
+        {
+            "rel": "prev",
+            "method": "GET",
+            "link": "https://api.test.com/users?page=0&per-page=0
+        },
+    ]
+  ]
+  ```
+
+- POST
+  - Response 
+  ```
+  HTTP/1.1 201 Created
+  {
+
+  }
+  ```
+
+- PUT
+  - Response 
+  ```
+  HTTP/1.1 201 Created
+  {
+
+  }
+  ```
+
+- DELETE
+  - Response 
+  ```
+  HTTP/1.1 204 No Content
+  {
+
+  }
+  ```
+
+
+
 ---
 
 ### 화면설계

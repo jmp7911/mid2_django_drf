@@ -44,6 +44,25 @@
         - github-page에서 커스텀 도메인을 등록한 후 github-page의 EnforceHTTPS 설정을 해제하고 http로 접속해보세요
 - kakao, github 등 OAuth2 연결해보기
 
+```mermaid
+gantt
+    dateFormat  YYYY-MM-DD
+    title       챗봇 어플리케이션
+    excludes    weekends
+    %% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)
+
+    section  전체
+    요구사항 분석            :done,    des1, 2023-11-21, 0d
+    데이터베이스 설계         :done,  des2, 2023-11-21, 0d
+    기능명세서 작성         :active,  des2, 2023-11-21, 1d
+    개발                   : des3, after des2, 5d
+    프레젠테이션             :des4, after des3, 2d
+
+    section  개발
+    js->django 리팩토링           :    dev1, after des2, 1d
+    
+    
+```
 ---
 
 ### 개발환경 및 기술

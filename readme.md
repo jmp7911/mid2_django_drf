@@ -57,10 +57,11 @@ gantt
     기능명세서 작성         :active,  des2, 2023-11-21, 1d
     서버환경 생성         :active,  des3, 2023-11-21, 1d
     개발                   : des4, after des2, 5d
-    프레젠테이션             :des5, after des3, 2d
+    프레젠테이션             :des5, after des4, 2d
 
     section  개발
     js->django 리팩토링           :    dev1, after des3, 1d
+
     
     
 ```

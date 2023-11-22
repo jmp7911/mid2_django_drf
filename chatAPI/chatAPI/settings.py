@@ -1,4 +1,5 @@
 import datetime
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -16,6 +17,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# OpenAI API Key
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 # Application definition
 
@@ -35,8 +38,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    'drf_link_header_pagination',
+    'corsheaders',
     #custom app
-    
+    'chat',
 ]
 
 SITE_ID = 1
@@ -44,13 +49,16 @@ REST_USE_JWT = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS':
+        'drf_link_header_pagination.LinkHeaderPagination',
+        'PAGE_SIZE': 100
 }
 
 JWT_AUTH = {
@@ -72,6 +80,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -82,6 +91,9 @@ MIDDLEWARE = [
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
 ]
+
+
+CORS_ALLOW_ALL_ORIGINS: True
 
 ROOT_URLCONF = 'chatAPI.urls'
 
@@ -137,9 +149,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 

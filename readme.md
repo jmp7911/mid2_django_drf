@@ -56,7 +56,7 @@ gantt
     데이터베이스 설계         :done,  des, 2023-11-21, 0d
     기능명세서 작성         :done,  des2, 2023-11-21, 2d
     서버환경 생성         :done,  des3, 2023-11-21, 1d
-    개발                   :active, des4, after des2, 5d
+    개발                   :active, des4, after des3, 5d
     프레젠테이션             :des5, after des4, 2d
 
     section  개발

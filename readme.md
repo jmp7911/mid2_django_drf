@@ -53,14 +53,18 @@ gantt
 
     section  전체
     요구사항 분석            :done,    des1, 2023-11-21, 0d
-    데이터베이스 설계         :done,  des2, 2023-11-21, 0d
-    기능명세서 작성         :active,  des2, 2023-11-21, 1d
-    서버환경 생성         :active,  des3, 2023-11-21, 1d
-    개발                   : des4, after des2, 5d
-    프레젠테이션             :des5, after des3, 2d
+    데이터베이스 설계         :done,  des, 2023-11-21, 0d
+    기능명세서 작성         :done,  des2, 2023-11-21, 2d
+    서버환경 생성         :done,  des3, 2023-11-21, 1d
+    개발                   :active, des4, after des2, 5d
+    프레젠테이션             :des5, after des4, 2d
 
     section  개발
-    js->django 리팩토링           :    dev1, after des3, 1d
+    FE            : active,   dev1, after des3, 1d
+    회원가입 / 로그인 구현 :   dev2, after dev1, 1d
+    chat with GPT 구현 :   dev3, after dev2, 1d
+    prompt 요청/관리 구현 :   dev4, after dev3, 1d 
+    social account 구현 :   dev5, after dev4, 1d 
     
     
 ```
@@ -116,7 +120,7 @@ erDiagram
 ---
 
 ### 기능명세서
-- **기본url** : 
+- **기본url** : 52.78.247.51:8000
 - **Content-Type** : application/json
 - 공통 **Header**  
 ```
@@ -140,19 +144,30 @@ erDiagram
 
   |Key|Value|Default|Description|
   |---|---|---|---|
-  |offset|1|1|paging offset|
-  |per-page|10|10|paging limit|
+  |page|1|1|paging offset ( > 0)|
+  |per_page|10|10|paging limit ( >= 5)|
 
   - Response
   ```
   HTTP/1.1 200 OK
   Link: 
-  <https://api.test.com/users?page=10&per-page=10>; rel="next",
-  <https://api.test.com/users?page=50&per-page=10>; rel="last",
-  <https://api.test.com/users?page=0&per-page=10>; rel="first",
-  <https://api.test.com/users?page=0&per-page=0>; rel="prev",
+  <52.78.247.51:8000/chat?page=10&per-page=10>; rel="next",
+  <52.78.247.51:8000/chat?page=50&per-page=10>; rel="last",
+  <52.78.247.51:8000/chat?page=0&per-page=10>; rel="first",
+  <52.78.247.51:8000/chat?page=0&per-page=0>; rel="prev",
   [
-      {1, ...},
+      {
+        "id": 1,
+        "user": "useremail",
+        "content":"text",
+        "created_at":"datetime",
+        "chat_reply": {
+          "id": 2,
+          "user": "useremail",
+          "content":"text",
+          "created_at":"datetime",
+        }
+      },
       {2, ...},
       ...
       {10,...},
@@ -160,35 +175,57 @@ erDiagram
         {
             "rel": "next",
             "method": "GET",
-            "link": "https://api.test.com/users?page=10&per-page=10
+            "link": "52.78.247.51:8000/chat?page=10&per-page=10
         },
         {
             "rel": "last",
             "method": "GET",
-            "link": "https://api.test.com/users?page=50&per-page=10
+            "link": "52.78.247.51:8000/chat?page=50&per-page=10
         },
         {
             "rel": "first",
             "method": "GET",
-            "link": "https://api.test.com/users?page=0&per-page=10
+            "link": "52.78.247.51:8000/chat?page=0&per-page=10
         },
         {
             "rel": "prev",
             "method": "GET",
-            "link": "https://api.test.com/users?page=0&per-page=0
+            "link": "52.78.247.51:8000/chat?page=0&per-page=0
         },
     ]
   ]
   ```
 
-- POST
-  - Response 
-  ```
-  HTTP/1.1 200 OK
-  {
+  - POST
+    - Response 
+    ```
+    HTTP/1.1 201 Created
+    {
+      "id": 1,
+      "content": "text",
+      "user": "useremail",
+      "created_at": "2018-07-04 14:00:00",
+      "chat_reply": {
+        "id": 2,
+        "content": "text",
+        "user": "useremail",
+        "created_at": "2018-07-04 14:00:00"
+      }
+      "links": [
+          {
+              "rel": "self",
+              "href": "http://52.78.247.51:8000/chat/1",
+              "method": "GET"
+          },
+          {
+              "rel": "delete",
+              "href": "http://52.78.247.51:8000/chat/1",
+              "method": "DELETE"
+          }
+      ]
+    }
 
-  }
-  ```
+    ```
 
 - DELETE
   - Response 
@@ -205,19 +242,27 @@ erDiagram
 
   |Key|Value|Default|Description|
   |---|---|---|---|
-  |page|1|1|paging offset|
-  |per_page|10|10|paging limit|
+  |page|1|1|paging offset ( > 0)|
+  |per_page|10|10|paging limit ( >= 5)|
 
   - Response
   ```
   HTTP/1.1 200 OK
   Link: 
-  <https://api.test.com/users?page=10&per-page=10>; rel="next",
-  <https://api.test.com/users?page=50&per-page=10>; rel="last",
-  <https://api.test.com/users?page=0&per-page=10>; rel="first",
-  <https://api.test.com/users?page=0&per-page=0>; rel="prev",
+  <52.78.247.51:8000/quote?page=10&per-page=10>; rel="next",
+  <52.78.247.51:8000/quote?page=50&per-page=10>; rel="last",
+  <52.78.247.51:8000/quote?page=0&per-page=10>; rel="first",
+  <52.78.247.51:8000/quote?page=0&per-page=0>; rel="prev",
   [
-      {1, ...},
+      {
+        "id": 1,
+        "user": "useremail",
+        "content":"text",
+        "is_apply":True,
+        "created_at":"datetime",
+        "updated_at":"datetime",
+        "applied_at":"datetime",
+      },
       {2, ...},
       ...
       {10,...},
@@ -225,22 +270,22 @@ erDiagram
         {
             "rel": "next",
             "method": "GET",
-            "link": "https://api.test.com/users?page=10&per-page=10
+            "link": "52.78.247.51:8000/quote?page=10&per-page=10
         },
         {
             "rel": "last",
             "method": "GET",
-            "link": "https://api.test.com/users?page=50&per-page=10
+            "link": "52.78.247.51:8000/quote?page=50&per-page=10
         },
         {
             "rel": "first",
             "method": "GET",
-            "link": "https://api.test.com/users?page=0&per-page=10
+            "link": "52.78.247.51:8000/quote?page=0&per-page=10
         },
         {
             "rel": "prev",
             "method": "GET",
-            "link": "https://api.test.com/users?page=0&per-page=0
+            "link": "52.78.247.51:8000/quote?page=0&per-page=0
         },
     ]
   ]
@@ -251,7 +296,29 @@ erDiagram
   ```
   HTTP/1.1 201 Created
   {
-
+    "id": 1,
+    "content": "text",
+    "user": "useremail",
+    "created_at": "2018-07-04 14:00:00",
+    "applied_at": "2018-07-04 14:00:00",
+    "updated_at": "2018-07-04 14:00:00"
+    "links": [
+        {
+            "rel": "self",
+            "href": "http://52.78.247.51:8000/quote/1",
+            "method": "GET"
+        },
+        {
+            "rel": "patch",
+            "href": "http://52.78.247.51:8000/quote/1",
+            "method": "PUT"
+        },
+        {
+            "rel": "delete",
+            "href": "http://52.78.247.51:8000/quote/1",
+            "method": "DELETE"
+        }
+    ]
   }
   ```
 

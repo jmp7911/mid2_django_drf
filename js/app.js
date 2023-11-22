@@ -1,4 +1,5 @@
-const url = `https://estsoft-openai-api.jejucodingcamp.workers.dev/`
+// const url = `http://52.78.247.51:8000/`
+const url = `http://localhost:8000/`
 
 const $input = document.querySelector('input')
 const $submit = document.querySelector('.submit')
@@ -153,7 +154,7 @@ $submit.addEventListener('click', async (e) => {
 })
 
 async function chatGPTAPI() {
-  res = await (await fetch(url, {
+  res = await (await fetch(url+'chat/', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

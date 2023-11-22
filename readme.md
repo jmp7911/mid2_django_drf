@@ -65,6 +65,7 @@ gantt
     chat with GPT 구현 :   dev3, after dev2, 1d
     prompt 요청/관리 구현 :   dev4, after dev3, 1d 
     social account 구현 :   dev5, after dev4, 1d 
+
     
     
 ```

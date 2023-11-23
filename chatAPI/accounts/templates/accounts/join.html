@@ -1,0 +1,53 @@
+{% extends "accounts/base.html" %}
+{% block 'contents' %}
+
+<div class="main">
+  <div class="container">
+    <h2 class="title">회원가입</h2>
+    <p class="description">
+      원활한 서비스를 이용을 위해 회원가입을 해주세요
+    </p>
+    
+    <form action="" method="post" enctype="multipart/form-data" class="d-flex flex-column">
+        {% csrf_token %}
+        <div class="form-floating mb-3">
+          {{form.email}}
+          <label class="form-label" for="user-email">{{form.email.label}}</label>
+        </div>
+        <div>
+          {{form.errors.email}}
+        </div>
+        <div class="form-floating mb-3">
+          {{form.password1}}
+          <label class="form-label" for="user-pw">{{form.password1.label}}</label>
+        </div>
+        <div>
+          {{form.errors.password1}}
+        </div>
+        <div class="form-floating mb-3">
+          {{form.password2}}
+          <label class="form-label" for="user-pw">{{form.password2.label}}</label>
+        </div>
+        <div>
+          {{form.errors.password2}}
+        </div>
+        <div class="form-floating mb-3">
+          {{form.nickname}}
+          <label class="form-label" for="user-nick">{{form.nickname.label}}</label>
+        </div>
+        <div>
+          {{form.errors.nickname}}
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="user-nick">{{form.profile_image.label}}</label>
+          {{form.profile_image}}
+        </div>
+        <div>
+          {{form.errors.profile_image}}
+        </div>
+        
+        <button class="submit-button" type="submit">회원가입</button>
+    </form>
+  </div>
+</div>
+{% endblock 'contents' %}

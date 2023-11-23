@@ -1,0 +1,58 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="ko-KR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  <link rel="stylesheet" href="{% static 'css/common.css' %}?2">
+  <link rel="stylesheet" href="{% static 'css/login-join.css' %}">
+
+</head>
+
+<body>
+  <!-- header -->
+  <div class="header">
+    <form class="d-flex" action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <select class="form-select" name="language">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages %}
+            {% for language in languages %}
+                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                    {{ language.name_local }} ({{ language.code }})
+                </option>
+            {% endfor %}
+        </select>
+        <input class="btn btn-outline-primary" type="submit" value="Switch">
+    </form>
+    <h1><a href="{% url "blog" %}">Blog</a></h1>
+    <div class="header-click">
+      <a href="{% url "blog" %}">{% trans "Blog" %}</a>
+      {% if user.is_authenticated %}
+      <a href="{% url "profile" user.id %}">{% trans "Profile" %}</a>
+      <a href="{% url "logout" %}">{% trans "Logout" %}</a>
+      {{user.get_image_tag}}
+      {% else %}
+      <a href="{% url "login" %}">{% trans "Login" %}</a>
+      <a href="{% url "signup" %}">{% trans "Signup" %}</a>
+      {% endif %}
+    </div>
+  </div>
+  <!-- // header -->
+  {% block 'contents' %}
+  {% endblock 'contents' %}
+  
+  <!-- footer -->
+  <p class="footer">Copyright 2023. Chilli All rights reserved.</p>
+  <!-- //footer -->
+</body>
+
+</html>

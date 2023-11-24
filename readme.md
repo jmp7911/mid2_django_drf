@@ -60,9 +60,9 @@ gantt
     프레젠테이션             :des5, after des4, 2d
 
     section  개발
-    FE            : active,   dev1, after des3, 1d
-    회원가입 / 로그인 구현 :active,   dev2, after dev1, 1d
-    chat with GPT 구현 :   dev3, after dev2, 1d
+    FE            : done,   dev1, after des3, 1d
+    회원가입 / 로그인 구현 :done,   dev2, after dev1, 1d
+    chat with GPT 구현 :active,   dev3, after dev2, 1d
     prompt 요청/관리 구현 :   dev4, after dev3, 1d 
     social account 구현 :   dev5, after dev4, 1d 
 

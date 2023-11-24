@@ -8,11 +8,13 @@
   <title>스토브리그 명대사</title>
 </head>
 <body>
-  <header>
-    <h1>
-      스토브리그 명대사 
-    </h1>
-    <div>
+  <header class="header">
+    <h1><a href="index.html">스토브리그 명대사</a></h1>
+    <div class="header-click">
+      <a href="quote.html">요청 게시판</a>
+      <a class="headerLink" href="login.html">로그인</a>
+      <a class="headerLink" href="join.html">회원가입</a>
+      <button class="headerLink" type="button">로그아웃</button>
     </div>
   </header>
   <main class="main">
@@ -37,21 +39,26 @@
       </div>
       <div>
         <div class="history_label">
-          
+
           <span><i class="bi bi-clock-history"></i>History</span>
           <a href="" onclick="removeHistory()"><i class="bi bi-trash3"></i></a>
         </div>
         <ul id="search_history">
-          
+
         </ul>
       </div>
     </section>
-    
+
   </main>
   <footer>
       copyright @<a href="https://github.com/jmp7911/chatAPI" target="_blank">github.com/jmp7911/chatAPI</a>
   </footer>
-  <!-- <script type="module" src="js/main.js"></script> -->
+
+  <script src="js/controller.js"></script>
   <script src="js/app.js"></script>
+  <script>
+
+    // securedApiRequest('/chat', 'GET');
+  </script>
 </body>
 </html>

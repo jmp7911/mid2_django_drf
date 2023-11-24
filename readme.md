@@ -61,7 +61,7 @@ gantt
 
     section  개발
     FE            : active,   dev1, after des3, 1d
-    회원가입 / 로그인 구현 :   dev2, after dev1, 1d
+    회원가입 / 로그인 구현 :active,   dev2, after dev1, 1d
     chat with GPT 구현 :   dev3, after dev2, 1d
     prompt 요청/관리 구현 :   dev4, after dev3, 1d 
     social account 구현 :   dev5, after dev4, 1d 
@@ -123,10 +123,10 @@ erDiagram
 ### 기능명세서
 - **기본url** : 52.78.247.51:8000
 - **Content-Type** : application/json
-- 공통 **Header**  
+- 인증이 필요한 공통 **Header**  
 ```
 {
-  Authentication : bearer TOKEN
+  Authorization : bearer TOKEN
 }
 ```
 |URL|GET|POST|PUT|DELETE|Description|

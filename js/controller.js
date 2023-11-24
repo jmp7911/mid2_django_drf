@@ -1,52 +1,135 @@
-const url = `https://estsoft-openai-api.jejucodingcamp.workers.dev/`
+const url = `http://localhost:8000/`
+function loginFormSubmit(f) {
+    let formData =  new FormData(f);
 
-const $input = document.querySelector('input')
-const $button = document.querySelector('button')
-const $wording = document.querySelector('.wording')
+    const requestBody = {};
+    formData.forEach((value, key) => requestBody[key] = value);
 
-const data = []
-data.push({
-  "role": "system",
-  "content": "assistant는 SBS 드라마 스토브리그의 대사를 작성한 작가입니다."
-}, {
-  "role": "user",
-  "content": "에피소드 1의 명대사를 알려줘"
-}, {
-  "role": "assistant",
-  "content": [{wording: "코치진들의 파벌싸움, 양쪽 파벌이 모두 무시하는 힘없는 감독, 어느새 소속이 부끄러워진 꼴찌의 이미지, 낙후된 시설 속에 떨어지는 의욕",
-  description: "면접 중 드림즈의 문제점을 지적해달라는 질문에 대한 백승수의 답."}]
-})
+    fetch(url+'rest-auth/login/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(requestBody)
+    }).then((response) => {
+        if (!response.ok) {
+            alert('이메일 또는 비밀번호를 다시 확인해 주세요')
+        } else {
+            response.json().then((data) => {
+                localStorage.setItem('access_token', data.access);
+                localStorage.setItem('refresh_token', data.refresh);
+                localStorage.setItem('user', data.user)
+                alert('로그인 성공!');
+                window.location.href='index.html'
+            })
+        }
+    })
 
 
-$button.addEventListener('click', e => {
-  console.log('click')
-  e.preventDefault()
-  const contents = $input.value
-  // data.push({
-  //     "role": "user",
-  //     "content": contents
-  // })
-  $input.value = ''
-
-  chatGPTAPI()
-})
-
-function chatGPTAPI() {
-  fetch(url, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
-      redirect: 'follow'
-  })
-  .then(res => res.json())
-  .then(res => {
-      console.log(res)
-      // 답변 온 것을 assistant로 저장
-      $wording.innerHTML = `${res.choices[0].message.content}`
-  })
+    return false
 }
 
-export default $wording;
-export {chatGPTAPI};
+function registerFormSubmit(f) {
+    let formData =  new FormData(f);
+
+    const requestBody = {};
+    formData.forEach((value, key) => requestBody[key] = value);
+
+
+    fetch(url+'rest-auth/registration/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(requestBody)
+    }).then((response) => {
+        if (response.ok) {
+            response.json().then((data) => {
+                localStorage.setItem('access_token', data.access);
+                localStorage.setItem('refresh_token', data.refresh);
+                localStorage.setItem('user', data.user)
+                alert('회원가입을 축하드립니다!');
+                window.location.href='index.html'
+            },(fail) => {
+                console.log(fail)
+            })
+        } else {
+            response.json().then((data) => {
+                for(let key in data) {
+                    document.getElementById(key).innerText = data[key].toString()
+                }
+            })
+        }
+    })
+
+
+    return false
+}
+
+async function refreshToken() {
+    const response = await fetch(url+'rest-auth/token/refresh/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ refresh: localStorage.getItem('refresh_token')})
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error('Token refresh failed');
+        alert('로그인 시간이 만료되었습니다. 다시 로그인 해주세요');
+        window.location.href="login.html";
+    }
+
+    // 새로운 액세스 토큰 저장
+    localStorage.setItem('access_token', data.access);
+    return data.access;
+}
+
+function getToken() {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+        throw new Error('Access token not found');
+        alert('로그인 해주세요');
+        window.location.href="login.html";
+    }
+
+    const payload = JSON.parse(atob(accessToken.split('.')[1]));
+    const exp = payload.exp;
+    const now = Date.now() / 1000;
+
+    // 토큰이 만료되면 새로운 토큰을 요청
+    if (now > exp) {
+        return refreshToken();
+    }
+
+    return Promise.resolve(accessToken);
+}
+
+async function securedApiRequest(endpoint, method, requestBody={}) {
+    try {
+        const token = await getToken();
+        let init = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            method: method,
+        }
+        if (method != 'GET') {
+            init['body'] = JSON.stringify(requestBody)
+        }
+        const response = await fetch(url+endpoint, init);
+
+        // 응답 처리
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Error during secured API request', error);
+    }
+}
+

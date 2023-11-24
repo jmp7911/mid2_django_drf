@@ -43,10 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     #custom app
     'chat',
-    'accounts',
 ]
-
-AUTH_USER_MODEL = 'accounts.User'  # 추가
 
 # django-allauth
 SITE_ID = 1 # 해당 도메인 id
@@ -112,10 +109,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
         'drf_link_header_pagination.LinkHeaderPagination',
         'PAGE_SIZE': 100
-}
-
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
 }
 
 AUTHENTICATION_BACKENDS = [

@@ -65,24 +65,40 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
+a {
+	text-decoration: none;
+	color: inherit;
+}
 a:visited {
     text-decoration: none;
     color: royalblue;
 }
-
-header {
-  font-size: 18pt;
-  padding: 10px;
-  margin: 10px;
-  border-bottom: 1px solid #aaa;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+/* header */
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 20px;
+	height: 80px;
+	border-bottom: 1px solid #ddd;
 }
-
-header > h1 {
-  
+.header h1 {
+    font-size: 18pt;
+}
+.header h1 a {
+	color: black;
+}
+.header-click a,
+.header-click button {
+	padding: 10px 15px;
+	margin-left: 10px;
+	color: black;
+	text-decoration: none;
+}
+.header-click button {
+	font: inherit;
+	border: 0;
+	background: none;
 }
 main {
   flex-grow: 1;

@@ -19,6 +19,4 @@ class Chat(BaseModel):
   chat_reply = models.ForeignKey('self', on_delete=models.CASCADE, related_name='response', null=True)
   created_at = models.DateTimeField(auto_now_add=True)
 
-  def __str__(self):
-    return f"{self.prompt}:"
 

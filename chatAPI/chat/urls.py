@@ -1,12 +1,12 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from .views import ChatAPIView
+from .views import ChatAPIView, chatbot
 
 router = DefaultRouter()
 router.register('', ChatAPIView)
-
 urlpatterns = [
-    path('', include(router.urls))
+    path('model/', include(router.urls)),
+    path('api/', chatbot, name='chatbot')
 ]
 

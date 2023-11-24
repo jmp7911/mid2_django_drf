@@ -1,57 +1,11 @@
-
-
-const $input = document.querySelector('input')
-const $submit = document.querySelector('.submit')
-const $wording = document.querySelector('.wording')
-const $description = document.querySelector('.description')
-const $history = document.querySelector('li')
-
-const data = []
-
-
-if (!localStorage.getItem('search_history')) {
-  localStorage.setItem('search_history', JSON.stringify([]))
-} else {
-
-
-  const searchHistoryArr = JSON.parse(localStorage.getItem('search_history'));
-  const $search_history = document.getElementById('search_history')
-  searchHistoryArr.forEach(obj => {
-    const $history = document.createElement('li');
-    $history.innerHTML = obj.searchString;
-    $history.addEventListener('click', e=> {
-      e.preventDefault();
-    
-      $wording.innerHTML = obj.quote;
-      $description.innerHTML = obj.description === undefined ? '' : obj.description;
-
-    })
-    $search_history.appendChild($history)
-  })
-
-}
-
-
-
-
-data.push({
-  "role": "system",
-  "content": "assistant는 키워드만 보고 드라마 명장면 명대사를 찾아줍니다."
-},
-{
-  "role": "user",
-  "content": "스토브리그의 명대사를 알려줘"
-}
-)
-
-const text = `1. 그 악의적인 편집은 계속 늘어나겠죠,
+1. 그 악의적인 편집은 계속 늘어나겠죠,
 (드림즈는) 한 10년 이상 꼴찌할지도 모릅니다. 신생팀이 생긴다고 해도.
 2. 백승수: 드림즈가 강해지길 바라십니까?
 이세영: 당연하죠.
 백승수: 모두가 그렇게 생각할까요?
 3. 윤성복: 임동규도 그렇고, 단장님은 가장 단단히 박힌 돌만 건드리네요. 저같은 사람 자르는 게 쉬웠을 텐데요.
 백승수: 박힌 돌에 이끼가 더 많을 겁니다.
-4. 팀에 조금이라도 도움이 된다고 생각되는 일이면, 전 할 겁니다. 팀에 조금이라도 해가 된다고 생각되는 일이면 잘라 내겠습니다. 해 왔던 것들을 하면서, 안 했던 것들을 할 겁니다. 
+4. 팀에 조금이라도 도움이 된다고 생각되는 일이면, 전 할 겁니다. 팀에 조금이라도 해가 된다고 생각되는 일이면 잘라 내겠습니다. 해 왔던 것들을 하면서, 안 했던 것들을 할 겁니다.
 회식 자리에서 구단 직원들에게 포부를 밝히며.
 5. 백승수: 팀장님은 고세혁 팀장을 믿습니까?
 이세영: 네, 믿어요. 오래 봐 온 분이에요.
@@ -89,26 +43,26 @@ const text = `1. 그 악의적인 편집은 계속 늘어나겠죠,
 13.
 성적은 단장 책임, 관중은 감독 책임. 그걸 믿는 편입니다. 단장은 스토브리그 기간과 새 시즌 동안에 팀이 더 강해지도록 세팅을 해야 되고, 감독이라면 경기장에 찾아온 관중들의 가슴 속에 불을 지펴야죠.
 14화에서 백승수가 윤성복 감독에게 재계약한 이유를 설명하며
-14. 
+14.
 백승수: 저는 의리라는 두 글자가 때로는 선을 넘어서 더러운 걸 가리지만 그 자체를 나쁘게 보진 않습니다. 그런데, 지금은 어떻습니까? 지켜야 할 의리 같은 게 있습니까?
 장우석: 권경민 사장.... 배신이라도 때리라는 겁니까?
 백승수: 잘못된 용어를 쓰시네요. 배신을 때리는 게 아니라 불의를 봤으면 고발을 하라는 겁니다.
 백승수, 장우석에게 이면계약서를 보여달라는 부탁을 하면서
-15. 
+15.
 권경민: (백승수에게만) 하, 이 새끼 봐라. 야, 내가 지금 어디 가는 줄 알아? 드림즈 해체 발표 기자회견. 재밌겠지? 같이 갈래?
 백승수: 아니, 나도 많이 바쁠 것 같애.
 15화에서, 드림즈의 최후를 알리는 권경민에게 한 말.
-16. 
+16.
 드림즈 단장 백승수입니다. 저에게 시간을 주신다면, 드림즈를 제가 매각하겠습니다.
 15화 마지막 장면에서, 재송그룹 권일도 회장에게 드림즈를 해체가 아닌 매각하게 도와달라고 말하는 장면. \
 날이 따뜻해진 걸 보면 단장의 시간은 지났습니다. 이제 감독과 선수들이 잘 하겠죠. 오늘의 결정만으로도 대표님께서는 대단한 결정을 하셨고, 제 발걸음은 한결 더 가벼워질 것 같습니다.
 16화에서 단장직 해고를 받아들이겠다는 뜻을 전하며
-17. 
+17.
 백승수: 제가 이렇게 떠나는 건 저한테는 익숙한 일이고, 제가 떠나는 곳이 폐허가 되지 않은 건... 저한테는 처음 있는 일입니다.
 이세영: 이번에도... 아무도 단장님을 지키지 못했네요.
 백승수: 아니요, 저한테는, 처음으로 무언가를 지켜낸 것으로 기억될 것 같습니다. 이걸로도, 힘이 많이... 날 것 같습니다.[52]
 16화에서, 단장직을 떠난 뒤 이세영과의 대화.
-18. 
+18.
 (권경민: 싸가지는 더럽게 없는데 일은 잘하는 사람이라고 소개를 했더니 좋아하던데요.)
 백승수: 일만 잘하는 사람을 더 좋아할텐데 이분들한테는 좀 아쉽게 됐네요.
 (권경민: 백 단장, 자신 있어요? 야구도 이제 겨우 익숙해졌는데 다른 종목을요.)
@@ -117,95 +71,3 @@ const text = `1. 그 악의적인 편집은 계속 늘어나겠죠,
 19.
 코치진들의 파벌싸움, 양쪽 파벌이 모두 무시하는 힘없는 감독, 어느새 소속이 부끄러워진 꼴찌의 이미지, 낙후된 시설 속에 떨어지는 의욕.
 면접 중 드림즈의 문제점을 지적해달라는 질문에 대한 백승수의 답.
-`;
-
-const prompt = `
-드라마 명대사: \`\`\`${text}\`\`\`
-
-"숫자."로 장면이 구분되어 있습니다
-`;
-
-data.push({
-  "role": "assistant",
-  "content": prompt
-}
-)
-
-$submit.addEventListener('click', async (e) => {
-  console.log('click')
-  e.preventDefault()
-
-  document.body.className = "loading";
-  response = await chatGPTAPI()
-  document.body.className = "";
-  response.searchString = $input.value;
-  insertSearchHistory(response);
-  $input.value = ''
-})
-
-async function chatGPTAPI() {
-  res = await (await fetch(url+'chat/api/', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({'input': $input.value}),
-      redirect: 'follow'
-  })).json();
-  
-  console.log(res)
-  // 답변 온 것을 assistant로 저장
-  try {
-    const jsonData = JSON.parse(res);
-    $wording.innerHTML = `${jsonData.quote}`
-    $description.innerHTML = `${jsonData.description}`
-
-
-    return jsonData;
-  } catch(e) {
-    $wording.innerHTML = `${res}`
-    $description.innerHTML = ``
-
-    return {quote:res};
-  }
-
-  
-
-}
-
-function insertSearchHistory(obj) {
-  const $search_history = document.getElementById('search_history');
-  const searchHistoryArr = JSON.parse(localStorage.getItem('search_history'));
-  searchHistoryArr.push(obj);
-  localStorage.setItem('search_history', JSON.stringify(searchHistoryArr));
-
-  const $history = document.createElement('li');
-  $history.innerHTML = obj.searchString;
-  $history.addEventListener('click', e=> {
-    e.preventDefault();
-  
-    $wording.innerHTML = obj.quote;
-    $description.innerHTML = obj.description === undefined ? '' : obj.description;;
-
-  })
-  $search_history.appendChild($history)
-}
-
-async function removeHistory() {
-  event.preventDefault();
-  res = await (await fetch(url+'chat/', {
-      method: 'DELETE',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
-      redirect: 'follow'
-  })).json();
-  localStorage.setItem('search_history', JSON.stringify([]))
-  const $search_history = document.getElementById('search_history');
-
-  $search_history.innerHTML = ''
-
-
-}
-

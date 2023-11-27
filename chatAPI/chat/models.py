@@ -13,10 +13,16 @@ class BaseModel(models.Model):
   def get_absolute_url(self):
     pass
 
+
+
+class ChatReply(BaseModel):
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  quote = models.CharField(max_length=512)
+  description = models.CharField(max_length=512)
+  scene = models.CharField(max_length=512, null=True)
+  created_at = models.DateTimeField(auto_now_add=True)
 class Chat(BaseModel):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
-  prompt = models.CharField(max_length=512)
-  chat_reply = models.ForeignKey('self', on_delete=models.CASCADE, related_name='response', null=True)
+  chat_reply = models.ForeignKey(ChatReply, on_delete=models.CASCADE)
+  content = models.TextField()
   created_at = models.DateTimeField(auto_now_add=True)
-
-

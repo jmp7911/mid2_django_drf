@@ -4,14 +4,16 @@ from django.shortcuts import render
 from django.urls import reverse
 from openai import AsyncOpenAI, OpenAI
 from rest_framework import permissions, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django.conf import settings
 
 from .models import Chat
+from .permissions import UserPermission
 from .serializers import ChatSerializer
 from .paginator import ExtraLinksAwarePageNumberPagination
+
 
 def create_link(desc, href, method=None):
   result = {
@@ -97,10 +99,23 @@ class HateoasModelView(ModelViewSet):
     self.perform_destroy(instance)
     return Response(data, status=status.HTTP_204_NO_CONTENT)
 
+
 class ChatAPIView(HateoasModelView):
   queryset = Chat.objects.all()
   serializer_class = ChatSerializer
-  # permission_classes = [permissions.IsAuthenticated]
+  permission_classes = [UserPermission]
+
+  def list(self, request, *args, **kwargs):
+    queryset = self.filter_queryset(self.get_queryset())
+    queryset = queryset.filter(user=request.user)
+
+    page = self.paginate_queryset(queryset)
+    if page is not None:
+      serializer = self.get_serializer(page, many=True)
+      return self.get_paginated_response(serializer.data)
+
+    serializer = self.get_serializer(queryset, many=True)
+    return Response(serializer.data)
 
   def get_list_links(self, request):
     return [
@@ -147,7 +162,9 @@ class ChatAPIView(HateoasModelView):
       create_link('Detail of chat', detail_link, 'GET')
     ]
 
+
 @api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
 def chatbot(request):
   if request.method == 'POST':
     client = OpenAI(
@@ -157,21 +174,16 @@ def chatbot(request):
     data = f.read()
     f.close()
 
-
     input = request.POST.get('input')
-    prompt = f'드라마 명대사: \`\`\`${data}\`\`\` "숫자."로 장면이 구분되어 있습니다'
-    contents = f'''키워드와 관련된 장면이 있으면 장면 전체를 찾아줘. 키워드는 이중 백틱(\`\`)으로 구분되어 있습니다. \`\`${input}\`\`.해당하는 결과가 없으면
+    prompt = f'드라마 명대사: ${data} "숫자."로 장면이 구분되어 있습니다'
+    contents = f'''키워드와 관련된 장면이 있으면 장면을 찾아줘. 키워드는 이중 백틱(``)으로 구분되어 있습니다. ``${input}``.해당하는 결과가 없으면
         '해당 장면을 찾을 수 없습니다'
-        를
+        를 
         문자열로
         응답
         해줘.결과가
         있으면
-        씬
-        단위로
-        문장을
-        제외하고
-        장면번호, 대사를
+        장면번호, 대사, 설명을
         포함하고
         scene, quote, description
         키값을
@@ -202,12 +214,14 @@ def chatbot(request):
       ],
       model="gpt-3.5-turbo",
     )
+
     return Response(chat_completion.choices[0].message.content, status=status.HTTP_200_OK)
-  # res = self.client.post('http://localhost:8000/chat/', data=chat_data)
 
 
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def delete_chat(request):
+  if request.method == 'POST':
+    Chat.objects.filter(user=request.user).delete()
 
-  # self.client.put(res.json()['_links'][0]['href'], data=answer_data)
-
-
-
+  return Response(status=status.HTTP_204_NO_CONTENT)

@@ -1,4 +1,5 @@
 const url = `http://localhost:8000/`
+
 function loginFormSubmit(f) {
     let formData =  new FormData(f);
 
@@ -19,7 +20,7 @@ function loginFormSubmit(f) {
             response.json().then((data) => {
                 localStorage.setItem('access_token', data.access);
                 localStorage.setItem('refresh_token', data.refresh);
-                localStorage.setItem('user', data.user)
+                localStorage.setItem('user', JSON.stringify(data.user))
                 alert('로그인 성공!');
                 window.location.href='index.html'
             })
@@ -49,7 +50,7 @@ function registerFormSubmit(f) {
             response.json().then((data) => {
                 localStorage.setItem('access_token', data.access);
                 localStorage.setItem('refresh_token', data.refresh);
-                localStorage.setItem('user', data.user)
+                localStorage.setItem('user', JSON.stringify(data.user))
                 alert('회원가입을 축하드립니다!');
                 window.location.href='index.html'
             },(fail) => {
@@ -79,7 +80,6 @@ async function refreshToken() {
 
     const data = await response.json();
     if (!response.ok) {
-        throw new Error('Token refresh failed');
         alert('로그인 시간이 만료되었습니다. 다시 로그인 해주세요');
         window.location.href="login.html";
     }
@@ -124,6 +124,9 @@ async function securedApiRequest(endpoint, method, requestBody={}) {
         }
         const response = await fetch(url+endpoint, init);
 
+        if (!response.ok) {
+            throw new Error('api error');
+        }
         // 응답 처리
         const data = await response.json();
         console.log(data);

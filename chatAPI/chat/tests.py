@@ -15,7 +15,11 @@ User = get_user_model()
 # Create your tests here.
 class ChatTest(TestCase):
   def setUp(self):
-    self.client = Client()
+    self.client = Client(
+      headers={
+        'Content-Type': 'application/json'
+      }
+    )
 
     self.LoginInfo = {
       'email': 'jmp7911@gmail.com',
@@ -113,11 +117,11 @@ class ChatTest(TestCase):
       'user': '1'
     }
     print(chat_data)
-    res = self.client.post('http://localhost:8000/chat/', data=chat_data)
+    res = self.client.post('http://localhost:8000/chat/model/', data=chat_data)
 
     print(res.json())
 
-    self.client.put(res.json()['_links'][0]['href'], data=answer_data)
+
 
 
 

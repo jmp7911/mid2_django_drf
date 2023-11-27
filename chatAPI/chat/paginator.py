@@ -6,6 +6,7 @@ from rest_framework.response import Response
 
 class ExtraLinksAwarePageNumberPagination(PageNumberPagination):
   page_size = 5
+  page_size_query_param = 'per_page'
   def get_paginated_response(self, data, links=[]):
     return Response(OrderedDict([
       ('count', self.page.paginator.count),

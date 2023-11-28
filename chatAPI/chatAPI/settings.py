@@ -34,6 +34,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
+    'social_django',
+    'rest_social_auth',
     'dj_rest_auth.registration',
     'dj_rest_auth',
     'rest_framework',
@@ -43,7 +46,38 @@ INSTALLED_APPS = [
     'corsheaders',
     #custom app
     'chat',
+    'quote',
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    "github": {
+        # For each provider, you can choose whether or not the
+        # email address(es) retrieved from the provider are to be
+        # interpreted as verified.
+        "VERIFIED_EMAIL": True
+    },
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+# 로그인 후 리디렉션할 페이지
+# LOGIN_REDIRECT_URL = 'home'
+# 로그아웃 후 리디렉션할 페이지
+# ACCOUNT_LOGOUT_REDIRECT_URL = 'home'
+# 로그아웃 버튼 클릭 시 자동 로그아웃
+ACCOUNT_LOGOUT_ON_GET = True
+
+SOCIALACCOUNT_FORMS = {
+    'disconnect': 'allauth.socialaccount.forms.DisconnectForm',
+    'signup': 'allauth.socialaccount.forms.SignupForm',
+}
 
 # django-allauth
 SITE_ID = 1 # 해당 도메인 id

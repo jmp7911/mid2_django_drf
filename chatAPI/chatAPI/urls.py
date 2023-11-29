@@ -8,6 +8,5 @@ urlpatterns = [
     path('chat/', include('chat.urls')),
     path('quote/', include('quote.urls')),
     path('accounts/', include('allauth.urls')),
-    path('api/login/', include('rest_social_auth.urls_jwt_pair')),
 ]
 

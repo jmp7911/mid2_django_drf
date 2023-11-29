@@ -1,4 +1,4 @@
-const url = `http://localhost:8000/`
+const url = `http://52.78.247.51:8000/`
 
 function loginFormSubmit(f) {
     let formData =  new FormData(f);

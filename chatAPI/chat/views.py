@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django.conf import settings
 
+from chatAPI.chatAPI.settings import BASE_DIR
+
 from .models import Chat
 from .permissions import UserPermission
 from .serializers import ChatSerializer
@@ -170,7 +172,7 @@ def chatbot(request):
     client = OpenAI(
       api_key=settings.OPENAI_API_KEY
     )
-    f = open("quote.txt", 'r')
+    f = open(BASE_DIR / "chatAPI/quote.txt", 'r')
     data = f.read()
     f.close()
 

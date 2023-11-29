@@ -10,8 +10,6 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django.conf import settings
 
-from chatAPI.chatAPI.settings import BASE_DIR
-
 from .models import Chat
 from .permissions import UserPermission
 from .serializers import ChatSerializer

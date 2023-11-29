@@ -1,4 +1,5 @@
 from collections import OrderedDict
+import os
 
 from django.shortcuts import render
 from django.urls import reverse
@@ -172,7 +173,7 @@ def chatbot(request):
     client = OpenAI(
       api_key=settings.OPENAI_API_KEY
     )
-    f = open(BASE_DIR / "chatAPI/quote.txt", 'r')
+    f = open(os.path.abspath(__file__) / "../quote.txt", 'r')
     data = f.read()
     f.close()
 

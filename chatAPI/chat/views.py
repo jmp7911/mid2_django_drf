@@ -171,7 +171,7 @@ def chatbot(request):
     client = OpenAI(
       api_key=settings.OPENAI_API_KEY
     )
-    f = open(os.path.abspath(__file__) / "../quote.txt", 'r')
+    f = open(os.path.dirname(os.path.abspath(__file__)) / "../quote.txt", 'r')
     data = f.read()
     f.close()
 

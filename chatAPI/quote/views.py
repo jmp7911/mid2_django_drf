@@ -103,7 +103,7 @@ class HateoasModelView(ModelViewSet):
 class QuoteAPIView(HateoasModelView):
   queryset = Quote.objects.all()
   serializer_class = QuoteSerializer
-  # permission_classes = [UserPermission]
+  permission_classes = [UserPermission]
 
   def list(self, request, *args, **kwargs):
     queryset = self.filter_queryset(self.get_queryset())

@@ -9,7 +9,7 @@ const $history = document.querySelector('li')
 async function getChatList(page=1) {
   const $search_history = document.getElementById('search_history')
 
-  let response = await securedApiRequest('chat/model/?per_page=5&page='+page, 'GET');
+  let response = await securedApiRequest('chat/model/?per-page=5&page='+page, 'GET');
   if (response.count > 0) {
     response.results.forEach(obj => {
       insertSearchHistory(obj)

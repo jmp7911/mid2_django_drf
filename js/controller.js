@@ -69,6 +69,24 @@ function registerFormSubmit(f) {
     return false
 }
 
+function boardWriteSubmit(f) {
+    let formData =  new FormData(f);
+
+    const requestBody = {};
+    formData.forEach((value, key) => requestBody[key] = value);
+
+    const user = localStorage.getItem('user')
+    const userData = JSON.parse(user)
+
+    requestBody['user'] = userData['pk']
+    const res = securedApiRequest('quote/', 'POST', requestBody)
+
+    res.then((response) => {
+        window.location.href='view.html?id='+response.id
+    })
+
+    return false
+}
 async function refreshToken() {
     const response = await fetch(url+'rest-auth/token/refresh/', {
         method: 'POST',

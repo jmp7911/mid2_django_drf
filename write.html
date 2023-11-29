@@ -30,7 +30,7 @@
     <h2 class="main-title">글쓰기</h2>
     <p class="main-desc">내용을 입력 해주세요.</p>
 
-    <form>
+    <form action="" method="POST" onSubmit="return boardWriteSubmit(this)">
       <table class="table write">
         <colgroup>
           <col style="width: 120px">
@@ -38,34 +38,25 @@
         </colgroup>
         <tbody>
           <tr>
-            <th><label for="category">카테고리</label></th>
-            <td>
-              <select id="category">
-                <option value="1">일반</option>
-                <option value="2">공지사항</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
             <th><label for="board-title">제목</label></th>
-            <td><input type="text" id="board-title" name="boardTitle"></td>
+            <td><input type="text" id="board-title" name="title"></td>
           </tr>
           <tr>
             <th><label for="board-content">내용</label></th>
             <td>
-              <textarea id="board-content"></textarea>
+              <textarea id="board-content" name="content"></textarea>
             </td>
           </tr>
           <tr>
-            <th><label for="board-file">파일첨부</label></th>
+            <th><label for="board-description">설명</label></th>
             <td>
-              <input type="file" id="board-file">
+              <textarea id="board-description" name="description"></textarea>
             </td>
           </tr>
         </tbody>
       </table>
       <div class="btn-group">
-        <a href="./index.html" class="btn">목록</a>
+        <a href="./quote.html" class="btn">목록</a>
         <button type="reset" class="btn">초기화</button>
         <button type="submit" class="btn">작성</button>
       </div>
@@ -74,6 +65,7 @@
     <!--  //글쓰기 페이지 -->
   </div>
 
+  <script src="js/controller.js?1"></script>
   <!-- footer -->
   <p class="footer">Copyright 2023. Chilli All rights reserved.</p>
   <!-- //footer -->

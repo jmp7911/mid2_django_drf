@@ -27,6 +27,8 @@ button:enabled {
 }
 
 /* layout --------------------------------- */
+#logout, #profile {display: none;}
+
 body {
 	min-width: 1000px;
 	display: flex;

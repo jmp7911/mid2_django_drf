@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-0r+=!b1=h+t0m@5oz9atitw-=gdqcr_py!nqgpw-3&i3ujh3us
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
-ALLOWED_HOSTS = ['52.78.247.51']
+ALLOWED_HOSTS = ['52.78.247.51', '*']
 
 # OpenAI API Key
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
@@ -138,10 +138,10 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    'http://3.39.238.230',
+    'http://3.39.238.230','http://127.0.0.1:5500'
 ]
 
-CSRF_TRUSTED_ORIGINS = ['http://3.39.238.230',]
+CSRF_TRUSTED_ORIGINS = ['http://3.39.238.230','http://127.0.0.1:5500']
 
 ROOT_URLCONF = 'chatAPI.urls'
 

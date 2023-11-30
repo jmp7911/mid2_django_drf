@@ -1,5 +1,18 @@
-const url = `http://52.78.247.51:8000/`
+// const url = `http://52.78.247.51:8000/`
+const url = `http://localhost:8001/`
 
+const $logout = document.getElementById('logout')
+const $login = document.getElementById('login')
+const $profile = document.getElementById('profile')
+const $join = document.getElementById('join')
+
+$logout.addEventListener('click', async (e) => {
+  // res = await securedApiRequest('rest-auth/logout/', 'POST')
+  localStorage.removeItem('access_token')
+  localStorage.removeItem('refresh_token')
+  localStorage.removeItem('user')
+  window.location.href='index.html'
+})
 function loginFormSubmit(f) {
     let formData =  new FormData(f);
 
@@ -98,10 +111,12 @@ async function refreshToken() {
 
     const data = await response.json();
     if (!response.ok) {
+        viewByAuthentication(false)
         alert('로그인 시간이 만료되었습니다. 다시 로그인 해주세요');
         window.location.href="login.html";
     }
 
+    viewByAuthentication(true)
     // 새로운 액세스 토큰 저장
     localStorage.setItem('access_token', data.access);
     return data.access;
@@ -110,7 +125,7 @@ async function refreshToken() {
 function getToken() {
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
-        throw new Error('Access token not found');
+        console.error('Access token not found');
         alert('로그인 해주세요');
         window.location.href="login.html";
     }
@@ -123,7 +138,8 @@ function getToken() {
     if (now > exp) {
         return refreshToken();
     }
-
+    
+    viewByAuthentication(true)
     return Promise.resolve(accessToken);
 }
 
@@ -154,3 +170,17 @@ async function securedApiRequest(endpoint, method, requestBody={}) {
     }
 }
 
+function viewByAuthentication(flag) {
+  if (flag) {
+    $login.style.display = 'none'
+    $join.style.display = 'none'
+    $profile.style.display = 'inline-block'
+    $logout.style.display = 'inline-block'
+  } else {
+    $login.style.display = 'inline-block'
+    $join.style.display = 'inline-block'
+    $profile.style.display = 'none'
+    $logout.style.display = 'none'
+  }
+
+}

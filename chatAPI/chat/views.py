@@ -109,15 +109,21 @@ class ChatAPIView(HateoasModelView):
   def list(self, request, *args, **kwargs):
     queryset = self.filter_queryset(self.get_queryset())
     queryset = queryset.filter(user=request.user)
-
+    
     page = self.paginate_queryset(queryset)
     if page is not None:
       serializer = self.get_serializer(page, many=True)
-      return self.get_paginated_response(serializer.data)
+      data = self.linkify_list_data(request, serializer.data)
+      return self.get_paginated_response(data, links=self.get_list_links(request))
 
     serializer = self.get_serializer(queryset, many=True)
-    return Response(serializer.data)
+    data = self.linkify_list_data(request, serializer.data)
 
+    return Response(OrderedDict([
+      ('results', data),
+      ('_links', self.get_list_links(request))
+    ]))
+  
   def get_list_links(self, request):
     return [
       {

@@ -1,5 +1,5 @@
-// const url = `http://52.78.247.51:8000/`
-const url = `http://localhost:8001/`
+const url = `http://52.78.247.51:8000/`
+
 
 const $logout = document.getElementById('logout')
 const $login = document.getElementById('login')

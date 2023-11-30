@@ -175,9 +175,10 @@ def chatbot(request):
     data = f.read()
     f.close()
 
-    input = request.POST.get('input')
-    prompt = f'드라마 명대사: ${data} "숫자."로 장면이 구분되어 있습니다'
-    contents = f'''키워드와 관련된 장면이 있으면 장면을 찾아줘. 키워드는 이중 백틱(``)으로 구분되어 있습니다. ``${input}``.해당하는 결과가 없으면
+    input = request.data['input']
+    
+    prompt = f'드라마 명대사: {data} "숫자."로 장면이 구분되어 있습니다'
+    contents = f'''키워드와 관련된 장면이 있으면 장면을 찾아줘. 키워드는 이중 백틱(``)으로 구분되어 있습니다. ``{input}``.해당하는 결과가 없으면
         '해당 장면을 찾을 수 없습니다'
         를 
         문자열로
@@ -194,6 +195,7 @@ def chatbot(request):
         개로
         해줘
         '''
+    
     chat_completion = client.chat.completions.create(
       messages=[
         {

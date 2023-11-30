@@ -1,5 +1,5 @@
-const url = `http://52.78.247.51:8000/`
-
+// const url = `http://52.78.247.51:8000/`
+const url = `http://localhost:8001/`
 
 const $logout = document.getElementById('logout')
 const $login = document.getElementById('login')
@@ -18,7 +18,7 @@ function loginFormSubmit(f) {
 
     const requestBody = {};
     formData.forEach((value, key) => requestBody[key] = value);
-
+    
     fetch(url+'rest-auth/login/', {
         method: 'POST',
         headers: {

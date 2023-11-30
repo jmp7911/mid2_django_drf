@@ -1,0 +1,15 @@
+[Unit]
+Description=uWSGI service
+After=syslog.target
+
+[Service]
+ExecStart=/home/ubuntu/mid2_django_drf/venv/bin/uwsgi -i /home/ubuntu/mid2_django_drf/chatAPI/chatAPI/.config/uwsgi/chatAPI.ini
+
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target

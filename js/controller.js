@@ -1,6 +1,5 @@
 const url = `http://52.78.247.51/`
 
-
 const $logout = document.getElementById('logout')
 const $login = document.getElementById('login')
 const $profile = document.getElementById('profile')
@@ -174,7 +173,7 @@ function viewByAuthentication(flag) {
   if (flag) {
     $login.style.display = 'none'
     $join.style.display = 'none'
-    $profile.style.display = 'inline-block'
+    // $profile.style.display = 'inline-block'
     $logout.style.display = 'inline-block'
   } else {
     $login.style.display = 'inline-block'

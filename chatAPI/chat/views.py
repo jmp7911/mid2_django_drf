@@ -27,6 +27,23 @@ def create_link(desc, href, method=None):
 
 
 class HateoasModelView(ModelViewSet):
+  """
+  HATEOAS를 만족하는 REST API 클래스
+  Response에 넣는 리소스에 링크를 삽입한다.
+  _links: {
+    'desc': 설명,
+    'href': 링크,
+    'method: HTTP 메소드
+  }
+  
+  각 메소드별 구현해야하는 함수들 이다.
+  list => get_list_links, linkify_list_data 
+  retrieve => get_retrieve_links
+  update => get_update_links
+  create => get_create_links
+  destroy => get_destroy_links
+  
+  """
   pagination_class = ExtraLinksAwarePageNumberPagination
 
   def get_list_links(self, request):

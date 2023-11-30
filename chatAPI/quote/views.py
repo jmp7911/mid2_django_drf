@@ -110,11 +110,11 @@ class QuoteAPIView(HateoasModelView):
 
     page = self.paginate_queryset(queryset)
     if page is not None:
-      serializer = self.get_serializer(page, many=True)
+      serializer = QuoteUserSerializer(page, many=True)
       data = self.linkify_list_data(request, serializer.data)
       return self.get_paginated_response(data, links=self.get_list_links(request))
 
-    serializer = self.get_serializer(queryset, many=True)
+    serializer = QuoteUserSerializer(queryset, many=True)
     data = self.linkify_list_data(request, serializer.data)
 
     return Response(OrderedDict([

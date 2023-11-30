@@ -444,6 +444,9 @@ AWS Lightsail 에서 배포하였습니다.
     - BE, FE 가 다른 REST API를 요청하는 방식에서 발생합니다.
     - corsheaders 를 설치하고 CORS_ALLOWED_ORIGINS에 IP를 명시하면 해당 IP에서 요청은 허용합니다.
 
+- registration
+    - 첫 번째 회원 가입 이후 회원가입은 서버에서 error가 발생하였습니다.
+    - 문제가 해결이 되면 여기에 작성하겠습니다.
 ---
 
 ### 회고

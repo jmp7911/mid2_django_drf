@@ -38,19 +38,19 @@ gantt
     %% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)
 
     section  전체
-    요구사항 분석            :done,    des1, 2023-11-21, 0d
-    데이터베이스 설계         :done,  des, 2023-11-21, 0d
-    기능명세서 작성         :done,  des2, 2023-11-21, 2d
-    서버환경 생성         :done,  des3, 2023-11-21, 1d
-    개발                   :done, des4, after des3, 5d
+    요구사항 분석            :    des1, 2023-11-21, 0d
+    데이터베이스 설계         :  des, 2023-11-21, 0d
+    기능명세서 작성         :  des2, 2023-11-21, 2d
+    서버환경 생성         :  des3, 2023-11-21, 1d
+    개발                   : des4, after des3, 5d
     프레젠테이션             :des5, after des4, 2d
 
     section  개발
-    FE            : done,   dev1, after des3, 1d
-    회원가입 / 로그인 구현 :done,   dev2, after dev1, 1d
-    chat with GPT 구현 :done,   dev3, after dev2, 1d
-    prompt 요청/관리 구현 :done,   dev4, after dev3, 1d 
-    요청 게시판 구현 : done,  dev5, after dev4, 1d 
+    FE            :    dev1, after des3, 1d
+    회원가입 / 로그인 구현 :   dev2, after dev1, 1d
+    chat with GPT 구현 :   dev3, after dev2, 1d
+    prompt 요청/관리 구현 :   dev4, after dev3, 1d 
+    요청 게시판 구현 :   dev5, after dev4, 1d 
 
     
     

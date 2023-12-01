@@ -173,8 +173,18 @@ erDiagram
       text content
       datetime created_at
       datetime updated_at
-      chat chat_reply FK
+      chatReply chat_reply FK
     }
+    chatReply {
+      integer id PK
+      integer user FK
+      text content
+      boolean is_apply
+      datetime created_at
+      datetime updated_at
+      
+    }
+    chat ||--|| chatReply : has
     user ||--o{ quote : has
     quote {
       integer id PK

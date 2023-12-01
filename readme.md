@@ -207,7 +207,8 @@ AWS Lightsail 에서 배포하였습니다.
 - BE
     - [52.78.247.51](http://52.78.247.51)
 
-![uwsgi nginx](https://github.com/jmp7911/mid2_django_drf/assets/37658328/f6fed68f-b7c6-45f3-9486-3ffc1c275242)
+
+![uwsgi nginx](https://github.com/jmp7911/mid2_django_drf/assets/37658328/da584242-9825-4a43-835e-4ac9dd3997fa)
 
 - FE
     - [3.39.238.230](http://3.39.238.230)
